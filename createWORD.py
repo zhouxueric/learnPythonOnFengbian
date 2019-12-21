@@ -30,14 +30,16 @@ From p - p
 
 #filetype = input('请输入要输出的文件后缀名（word:docx,Excle: xlsx, 文本：txt）')
 filelist = input('请输入文件列表路径：（如E:/filelist.txt）')
-#outputfold = input('请输入文件输出路径：')
+outputfold = input('请输入文件输出路径：')
 filetype = 'docx'
-outputfold = r'd:\Desktop\NOTEbook'
+# outputfold = r'd:\Desktop\NOTEbook'
 
+# 利用replace()方法，将\替换为/
 filelist.replace('\\','/')
 outputfold.replace('\\','/')
 n = 0
 def clean_zh_text(text):
+    # 去除特殊字符，留下字母、数字、汉字，并用-代替特殊字符
     comp = re.compile('[^A-Z^a-z^0-9^\u4e00-\u9fa5]')
     return comp.sub('-',text)
 
