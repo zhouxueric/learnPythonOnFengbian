@@ -5,6 +5,10 @@ class Book:
         self.comment = comment
         self.state = state
     
+class FictionBook(Book):
+    def __init__(self, name, author, comment, state = 0, type = '虚构类'):
+        Book.__init__(self, name, author, comment, state = 0)  
+        self.type = type  
     def __str__(self): 
         '''
         打印对象即可打印出该方法中的返回值，而无须再调用方法。
@@ -13,15 +17,17 @@ class Book:
             status = '未借出'
         else:
             status = '已借出'
-        return '名称：《%s》 作者：%s 推荐语：%s\n状态：%s ' % (self.name, self.author, self.comment, status)
+        return '类型：%s 名称：《%s》 作者：%s 推荐语：%s\n状态：%s ' % (self.type, self.name, self.author, self.comment, status)
+
+
 
 class BookManager:
     books = []
     def __init__(self):
-        book1 = Book('惶然录','费尔南多·佩索阿','一个迷失方向且濒于崩溃的灵魂的自我启示，一首对默默无闻、失败、智慧、困难和沉默的赞美诗。')
-        book2 = Book('以箭为翅','简媜','调和空灵文风与禅宗境界，刻画人间之缘起缘灭。像一条柔韧的绳子，情这个字，不知勒痛多少人的心肉。')
-        book3 = Book('心是孤独的猎手','卡森·麦卡勒斯','我们渴望倾诉，却从未倾听。女孩、黑人、哑巴、醉鬼、鳏夫的孤独形态各异，却从未退场。')
-        self.books.append(book1)  #注意！！！列表中的元素为实例，而非Book.__str__输出的内容
+        book1 = FictionBook('惶然录','费尔南多·佩索阿','一个迷失方向且濒于崩溃的灵魂的自我启示，一首对默默无闻、失败、智慧、困难和沉默的赞美诗。')
+        book2 = FictionBook('以箭为翅','简媜','调和空灵文风与禅宗境界，刻画人间之缘起缘灭。像一条柔韧的绳子，情这个字，不知勒痛多少人的心肉。')
+        book3 = FictionBook('心是孤独的猎手','卡森·麦卡勒斯','我们渴望倾诉，却从未倾听。女孩、黑人、哑巴、醉鬼、鳏夫的孤独形态各异，却从未退场。')
+        self.books.append(book1)  #注意！！！列表中的元素为Book的实例，而非Book.__str__输出的内容
         self.books.append(book2)
         self.books.append(book3)
     
@@ -45,13 +51,13 @@ class BookManager:
     
     def show_all_book(self):
         for book in self.books:
-            print(book)
+            print(book)   #若Book中无__str__,则输出的其实是一个object和内存地址
     
     def add_book(self):
         new_name = input('请输入书名')
         new_author = input('请输入作者')
         new_commend = input('请输入推荐语')
-        new_book = Book(new_name,new_author,new_commend) #创建实例
+        new_book = FictionBook(new_name,new_author,new_commend) #创建实例
         print(new_book)
         self.books.append(new_book)
         print('录入成功！')
@@ -64,12 +70,15 @@ class BookManager:
         for book in self.books:
             if book.name == name:
                 return book
-            else:
-                return None
+        else:
+            return None
     
     def lend_book(self):
-        lend_name = input('输入你要借的书名：')
-        a = self.check_book(lend_name)
+        '''
+        调用check_book()方法，将结果赋给a，a为None或为实例。
+        '''        
+        name = input('输入你要借的书名：')
+        a = self.check_book(name)
         if a == None:
             print('抱歉，图书馆中暂时没有该书！')
         else:
@@ -80,10 +89,10 @@ class BookManager:
                 print ('很遗憾，该书已被借出！')
     
     def return_book(self):
-        return_name = input('输入你要归还的书名：')
-        a = self.check_book(return_name)  #若该书存在，则a为该书的实例。
+        name = input('输入你要归还的书名：')
+        a = self.check_book(name)  #若该书存在，则a为该书的实例。
         if a == None:
-            print('抱歉，图书馆中存在该书！但你可以向图书馆添加此书！')
+            print('抱歉，图书馆中不存在该书！但你可以向图书馆添加此书！')
         else:
             a.state = 0
             print('归还成功')
