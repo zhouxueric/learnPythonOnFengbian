@@ -1,0 +1,55 @@
+罗恩 23 35 44
+哈利 60 77 68 88 90
+赫敏 97 99 89 91 95 99
+马尔福 100 85 90
+
+file1 = open('scores.txt','r',encoding='utf-8') 
+file_lines = file1.readlines() 
+file1.close()
+
+final_scores = []
+
+for i in file_lines:
+    data =i.split()
+    sum = 0  # 先把总成绩设为0
+    for score in data[1:]:  # 遍历列表中第1个数据和之后的数据
+        sum = sum + int(score)  # 然后依次加起来，但分数是字符串，所以要转换    
+    result = data[0]+str(sum)+'\n'  # 结果就是学生姓名和总分
+    print(result)
+    final_scores.append(result)
+
+print(final_scores)
+
+sum1 = open('winner.txt','w',encoding='utf-8') 
+sum1.writelines(final_scores)
+sum1.close()
+
+# 下面已经为你准备好了打开的代码和一些变量名的准备。
+# 请你完成数据处理以及新建文档（同一个目录）的代码。
+# 一个提示：可以用 print 作为检验代码，步步为营。
+
+file1 = open('winner.txt','r',encoding='utf-8') 
+file_lines = file1.readlines() 
+file1.close()
+
+dict_scores = {}
+list_scores = []
+final_scores = []
+
+print(file_lines)
+for line in file_lines:
+    name = line[0:len(line)-4]
+    #print(name)
+    score = line[-4:-1]
+    #print(score)
+    list_scores.append(score)
+    dict_scores[score] = name
+#for key,value in dict_scores.items():
+#    print(key,value)
+list_scores.sort(reverse = True)
+#print(list_scores)
+for score in list_scores:
+    final_scores.append(dict_scores[score] + score + '\n')
+print(final_scores)
+with open('winner_new.txt','w',encoding='utf-8') as f:
+    f.writelines(final_scores)
