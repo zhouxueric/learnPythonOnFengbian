@@ -131,3 +131,4 @@ dmypy.json
 ~$*.docx
 /.vscode
 /__pycache__
+/.git
