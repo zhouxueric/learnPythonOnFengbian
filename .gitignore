@@ -132,3 +132,6 @@ dmypy.json
 /.vscode
 /__pycache__
 /.git
+*.txt
+*.csv
+*.gif
