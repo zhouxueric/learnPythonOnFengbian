@@ -10,7 +10,7 @@ import csv
 # #写入CSV数据
 # data = [['zz','284066224@qq.com'],['bb','568407171@qq.com']]
 # with open('sent_mail_to_addrs.csv', 'w', newline='') as f:
-#     w = csv.writer(f)
+    #  w = csv.writer(f, dialect='excel')
 #     for row in data:
 #         w.writerow(row) #CSV的写入方式有别于txt的writeline()
 
