@@ -119,3 +119,6 @@ if __name__ == '__main__':
 #         os.system(filename)
 #     else:
 #         os.system('open {filename}'.format(filename=filename))
+a = {}
+a.setdefault(1,'ggg')
+import pprint
