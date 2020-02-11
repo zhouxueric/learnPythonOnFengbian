@@ -24,12 +24,10 @@ class TicTacToe():
         '''判断下子是否有效, 参数move：下子的位置'''
         if self.move not in range(1,10):
             self.move = int(input('请输入数字1-9！\n请重新输入要下子的位置'))
-            return 0
         elif self.move in self.section:
             self.move = int(input('抱歉，该位置已有棋子！\n请重新输入要下子的位置'))
-            return 0
         else:
-            return True
+            return 
         #为何连续错3次会有错误的输出，如连续3次0，则0会转出到下游
 
     def run(self):
