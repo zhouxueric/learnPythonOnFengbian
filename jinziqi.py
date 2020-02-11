@@ -3,11 +3,11 @@
 # import os
 class TicTacToe():
     '''井字棋'''
+    print('欢迎加入井字棋游戏\n数字1-9分别代表井字的9个位置，输入相应数字即可下子。\n先手执X，后手执O')
     
     def __init__(self):
         self.turn = 'X' #棋手、棋子
         self.section = [] #记录棋子位置
-        print('欢迎加入井字棋游戏\n数字1-9分别代表井字的9个位置，输入相应数字即可下子。\n先手执X，后手执O')
         self.broad = {1:' ',2:' ',3:' ',4:' ',5:' ',6:' ',7:' ',8:' ',9:' '}
     # def __str__():
     # #打印对象即可打印出该方法中的返回值，而无须再调用方法。
@@ -109,6 +109,7 @@ class TicTacToe():
     def doagain(self):
         self.again = '是'
         while self.again == '是':
+            print('-------Round--------')
             self.__init__()
             self.run()
             self.again = input('是否再下一次？（是[/否]）')
@@ -119,4 +120,3 @@ class TicTacToe():
 if __name__ == '__main__':
     xiaoming = TicTacToe()
     xiaoming.main()
-
