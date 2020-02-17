@@ -15,9 +15,9 @@
 # import sys
 from cx_Freeze import setup, Executable
 
-_script = "jinziqi.py" # 生成可执行文件的主文件
-_targetName = "jinziqi.exe" # 可执行文件的名称
-_icon = "jin.ico" # 可执行文件的ico图标，要icon的话，_targetName不能有中文
+_script = "My_labrary.py" # 生成可执行文件的主文件
+_targetName = "labrary.exe" # 可执行文件的名称
+_icon = None #"jin.ico" # 可执行文件的ico图标，要icon的话，_targetName不能有中文
 base = None
 # if sys.platform == 'win32':
 #     base = 'Win32GUI'
@@ -29,9 +29,9 @@ executables = [Executable(script=_script, base=base, targetName=_targetName,
                           icon=_icon,
               )]
 # 设置安装时软件包的描述信息
-setup(name = "game",
+setup(name = "app",
       version = "0.1",
-      description = "My python program",
+      description = "My python labrary",
       author = "zhouxu",
       executables = executables
       )

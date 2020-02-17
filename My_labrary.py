@@ -35,7 +35,7 @@ class BookManager:
     books = [] #书单，元素为Book实例对象
     authors = [] #作者名单
     book_info = {} #储存从文件中读取的信息,并在书籍状态改变或新增时，临时储存数据
-    book_ID = 1
+    book_ID = 0
     def __init__(self):
         # 利用try-except检查图书馆数据文件是否存在，若不存在则创建文件
         try:
@@ -55,9 +55,9 @@ class BookManager:
                 book = FictionBook(row['id'],row['书名'], row['作者'], row['推荐语'], state=int(row['状态']), type=row['类型'])
                 # print('book',book.state)
                 # 全部信息
+                self.book_ID += 1
                 self.book_info[self.book_ID] = {'书名':row['书名'], '作者':row['作者'], '推荐语':row['推荐语'],
                                                 '状态':int(row['状态']), '类型':row['类型']}
-                self.book_ID += 1
                 self.books.append(book)
                 self.authors.append(book.author)
                 # self.book_info.append({'书名':row['书名'], '作者':row['作者'], '推荐语':row['推荐语'], '状态':row['状态'], '类型':row['类型']})
@@ -96,13 +96,13 @@ class BookManager:
         # info = [new_name,new_author,new_commend,0,'未分类'] #新书信息，为csv的1行
         self.books.append(new_book) #加入书单
         self.authors.append(new_book.author) #加入作者名单
+        self.book_ID += 1
         self.book_info[self.book_ID] = {'书名':new_name, 
                                    '作者':new_author, 
                                    '推荐语':new_commend, 
                                    '状态':int(new_book.state), 
                                    '类型':new_book.type
                                    }
-        self.book_ID += 1
         self.writeCSV(self.book_info)
         print('录入成功！')
         print(new_book)
