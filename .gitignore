@@ -139,9 +139,13 @@ dmypy.json
 *.csv
 *.gif
 *.rar
+<<<<<<< HEAD
 *.png
 *.html
 *.ico
 *.jpg
 *.JPG
 *.jpeg
+=======
+*.mp3
+>>>>>>> refs/remotes/origin/master

@@ -1,13 +1,22 @@
+#! python3
+# -*- coding: utf-8 -*-
+# Author: zhouxu
+# Version 0.1
+import csv
+
 class Book:
-    def __init__(self, name, author, comment, state = 0):
+    def __init__(self, id, name, author, comment, state):
+        self.id = id
         self.name = name
         self.author = author
         self.comment = comment
         self.state = state
+        # print('Book.',state)
     
 class FictionBook(Book):
-    def __init__(self, name, author, comment, state = 0, type = '虚构类'):
-        Book.__init__(self, name, author, comment, state = 0)  
+    def __init__(self, id, name, author, comment, state=0, type='未分类'):
+        # print('FictionBook.',state)
+        Book.__init__(self, id, name, author, comment, state) 
         self.type = type  
     def __str__(self): 
         '''
@@ -17,25 +26,43 @@ class FictionBook(Book):
             status = '未借出'
         else:
             status = '已借出'
-        return '类型：%s 名称：《%s》 作者：%s 推荐语：%s\n状态：%s ' % (self.type, self.name, self.author, self.comment, status)
+        # print('__str__',status)
+        return '名称：《%s》 作者：%s 推荐语：%s\n状态：%s 类型：%s' % (self.name, self.author, self.comment, status, self.type)
 
 
 
 class BookManager:
-    books = []
-    authors = []
+    books = [] #书单，元素为Book实例对象
+    authors = [] #作者名单
+    book_info = {} #储存从文件中读取的信息,并在书籍状态改变或新增时，临时储存数据
+    book_ID = 0
     def __init__(self):
-        book1 = FictionBook('惶然录','费尔南多·佩索阿','一个迷失方向且濒于崩溃的灵魂的自我启示，一首对默默无闻、失败、智慧、困难和沉默的赞美诗。')
-        book2 = FictionBook('以箭为翅','简媜','调和空灵文风与禅宗境界，刻画人间之缘起缘灭。像一条柔韧的绳子，情这个字，不知勒痛多少人的心肉。')
-        book3 = FictionBook('心是孤独的猎手','卡森·麦卡勒斯','我们渴望倾诉，却从未倾听。女孩、黑人、哑巴、醉鬼、鳏夫的孤独形态各异，却从未退场。')
-        book4 = FictionBook('撒哈拉的故事','三毛','我每想你一次，天上便落下一粒沙，从此便有了撒哈拉。')
-        book5 = FictionBook('梦里花落知多少','三毛','人人都曾拥有荷西，虽然他终会离去。')
-        book6 = FictionBook('月亮与六便士','毛姆','满地都是六便士，他却抬头看见了月亮。')
-        self.books = [book1,book2,book3,book4,book5,book6]  #注意！！！列表中的元素为Book的实例，而非FictionBook.__str__输出的内容
-        # 将实例放在列表books里
-        self.authors = [book1.author,book2.author,book3.author,book4.author,book5.author,book6.author]
-        # self.authors.append(book3.author)
-        # 将实例的作者名添加到列表author里
+        # 利用try-except检查图书馆数据文件是否存在，若不存在则创建文件
+        try:
+            f = open('my_labrary_book.csv')
+            f.close()
+        except FileNotFoundError:
+            with open('my_labrary_book.csv', 'w+', newline='', encoding='utf-8') as f:
+                pass
+            print('已创建数据文件 my_labrary_book.csv')
+        
+        # 读取图书馆数据
+        with open('my_labrary_book.csv', 'r+', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                # print(type(row)) #<class 'collections.OrderedDict'>
+                # print(row['状态'])
+                book = FictionBook(row['id'],row['书名'], row['作者'], row['推荐语'], state=int(row['状态']), type=row['类型'])
+                # print('book',book.state)
+                # 全部信息
+                self.book_ID += 1
+                self.book_info[self.book_ID] = {'书名':row['书名'], '作者':row['作者'], '推荐语':row['推荐语'],
+                                                '状态':int(row['状态']), '类型':row['类型']}
+                self.books.append(book)
+                self.authors.append(book.author)
+                # self.book_info.append({'书名':row['书名'], '作者':row['作者'], '推荐语':row['推荐语'], '状态':row['状态'], '类型':row['类型']})
+            # next(reader)
+        # print(self.book_info)
     
     def menu(self):
         print('欢迎使用流浪图书管理系统，每本沉默的好书都是一座流浪的岛屿，希望你有缘发现并着陆，为精神家园找到一片栖息地。\n')
@@ -43,7 +70,6 @@ class BookManager:
             print('1.查询所有书籍\n2.添加书籍\n3.借出书籍\n4.归还书籍\n5.查询作者\n6.退出系统\n')
             choice = input('请输入数字选择对应的功能：')
             if choice == '1':
-                # print(self.books[0])
                 self.show_all_book()
             elif choice == '2':
                 self.add_book()
@@ -57,39 +83,29 @@ class BookManager:
                 print('感谢使用流浪图书管理系统，欢迎再次使用！')
                 break
     
-    def show_author_book(self):
-        author = input('请输入要查询的作者：')
-        if author in self.authors:
-            for book in self.books:
-                if book.author == author:
-                    print('《%s》'% book.name)
-        else:
-            print('暂时还没有该作者的书籍。')            
-    
     def show_all_book(self):
         for book in self.books:
             print(book)   #若Book中无__str__,则输出的其实是一个object和内存地址
+        print('本馆一共有%s本书'% self.book_ID)
     
     def add_book(self):
         new_name = input('请输入书名')
         new_author = input('请输入作者')
         new_commend = input('请输入推荐语')
-        new_book = FictionBook(new_name,new_author,new_commend) #创建实例
-        print(new_book)
-        self.books.append(new_book)
-        self.authors.append(new_book.author)
+        new_book = FictionBook(self.book_ID,new_name,new_author,new_commend) #创建实例
+        # info = [new_name,new_author,new_commend,0,'未分类'] #新书信息，为csv的1行
+        self.books.append(new_book) #加入书单
+        self.authors.append(new_book.author) #加入作者名单
+        self.book_ID += 1
+        self.book_info[self.book_ID] = {'书名':new_name, 
+                                   '作者':new_author, 
+                                   '推荐语':new_commend, 
+                                   '状态':int(new_book.state), 
+                                   '类型':new_book.type
+                                   }
+        self.writeCSV(self.book_info)
         print('录入成功！')
-    
-    def check_book(self,name):
-        '''
-        检查该书是否存在于图书馆中，即books列表中是否存在name为name的实例。
-        存在返回实例book，不存在则返回None。
-        '''
-        for book in self.books:
-            if book.name == name:
-                return book
-        else:
-            return None
+        print(new_book)
     
     def lend_book(self):
         '''
@@ -103,6 +119,9 @@ class BookManager:
             if a.state == 0:
                 print('借出成功！')
                 a.state = 1    #改写借出状态
+                self.book_info[int(a.id)]['状态'] = 1
+                # print(self.book_info) #这一步，self.book_info已经被重置了！！！#什么鬼，'w'>'a'
+                self.writeCSV(self.book_info) 
             else:
                 print ('很遗憾，该书已被借出！')
     
@@ -113,7 +132,45 @@ class BookManager:
             print('抱歉，图书馆中不存在该书！但你可以向图书馆添加此书！')
         else:
             a.state = 0
+            self.book_info[int(a.id)]['状态'] = 0
+            self.writeCSV(self.book_info)
             print('归还成功')
 
+    def show_author_book(self):
+        author = input('请输入要查询的作者：')
+        if author in self.authors:
+            for book in self.books:
+                if book.author == author:
+                    print('本馆%s的著作有《%s》'% (author, book.name))
+        else:
+            print('暂时还没有该作者的书籍。') 
+    
+    def writeCSV(self,info_Dict):
+        '''传入字典，将其格式化为1维，格式化后写入CSV文件'''
+        # 刷新文件 太低级,需要直接操作单元格的方法
+        fieldnames = ['id','书名','作者','推荐语','状态','类型']
+        with open('my_labrary_book.csv', 'w', newline='', encoding='utf-8') as f:
+            # f.truncate()
+            writer = csv.DictWriter(f,fieldnames=fieldnames)
+            writer.writeheader()
+
+        for k,v in info_Dict.items():
+            info_unzip = {'id':int(k),'书名':v['书名'],'作者':v['书名'],'推荐语':v['推荐语'],'状态':int(v['状态']),'类型':v['类型']}
+            # print(info_unzip)
+            with open('my_labrary_book.csv', 'a+', newline='', encoding='utf-8') as f:
+                writer = csv.DictWriter(f,fieldnames=fieldnames)
+                writer.writerow(info_unzip)
+    
+    def check_book(self,name):
+        '''
+        检查该书是否存在于图书馆中，即books列表中是否存在name为name的实例。
+        存在返回实例book，不存在则返回None。
+        '''
+        for book in self.books:
+            if book.name == name:
+                return book
+        else:
+            return None
+    
 manager = BookManager()
 manager.menu()
