@@ -23,3 +23,4 @@ print('转换成功，共%s个' % i)
 
 with open('d:\\desktop\\format_sample.txt','w') as f:
     f.writelines(result)
+    f.wri

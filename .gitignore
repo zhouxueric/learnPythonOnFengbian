@@ -128,12 +128,24 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# personal file
 ~$*.docx
 /.vscode
 /__pycache__
 /.git
+.DS_Store
+ÖªÊ¶½ØÍ¼/*
 *.txt
 *.csv
 *.gif
 *.rar
+<<<<<<< HEAD
+*.png
+*.html
+*.ico
+*.jpg
+*.JPG
+*.jpeg
+=======
 *.mp3
+>>>>>>> refs/remotes/origin/master
