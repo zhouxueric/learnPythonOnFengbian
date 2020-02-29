@@ -126,7 +126,6 @@ def getlist(p,idol):
         # res_music = res_music.text
         # print(res_music.text)
         json_music = res_music.json()
-        print(json_lrc['data']['lyric']['list'])
         for music in json_music["data"]["song"]["list"]:
             print(num, music['name'])
             # print('所属专辑：' + music['album']['name'])
@@ -189,6 +188,7 @@ def getlrc(p, idol, params):
             print('\n>>>>>>>>>>>>>')
 
 class Getall:
+    '''公共信息:params,hearders,url'''
     params = {
         'ct':'24',
         'qqmusic_ver': '1298',
@@ -223,8 +223,8 @@ class Getall:
         'cookie':'pgv_pvi=1528136704; ptui_loginuin=1263594944; RK=ZgQMiZUGV4; ptcz=12042ec9c80b3465ee17161e55308141b962b7282cfc51e7068d003e02b15263; pgv_pvid=8196016265; ts_uid=8847419840; yqq_stat=0; ts_refer=www.pypypy.cn/; pgv_info=ssid=s8319235216; pgv_si=s2944559104; userAction=1; ts_last=y.qq.com/portal/search.html'
         }
     url = 'https://c.y.qq.com/soso/fcgi-bin/client_search_cp'
-    def __init__(self, writer, page, type_, number=20):
-        self.params['w'] = writer
+    def __init__(self, singer, page, type_, number=20):
+        self.params['w'] = singer
         self.page = page  
         self.type_ = type_  #爬取页数
         self.params['t'] = str(type_)   #专辑 t: 8；MV t: 12；歌词't':'7'；歌名't':'0'
@@ -232,13 +232,18 @@ class Getall:
     def test(self):
         print(self.params['w'], self.params['p'],self.params['t'],self.params['n'])
 class Getsome(Getall):
-    '''专辑 t: 8；MV t: 12；歌词't':'7'；歌名't':'0'
+    '''专辑 't': 8；MV 't': 12；歌词't':'7'；歌名't':'0'
     '''
     num = 1
-    def __init__(self, writer, page, type_=7, number=20):
-        Getall.__init__(self, writer, page, type_, number)
+    def __init__(self, singer, page, type_=7, number=20):
+        Getall.__init__(self, singer, page, type_, number)
     def test(self):
         print(self.params['w'], self.params['p'],self.params['t'],self.params['n'])
+    def getjson(self,i):
+        self.params['p'] = str(i+1)
+        res = requests.get(self.url, headers=self.headers, params=self.params)
+        print(res.url)
+        self.json_text = json.loads(res.text)  #调用 json.loads()
     def getlrc(self):
         for i in range(self.page):
             self.getjson(i)
@@ -248,11 +253,6 @@ class Getsome(Getall):
                 for line in lrc.split('\\n'):
                     print(line)
                 print('\n>>>>>>>>>>>>>')
-    def getjson(self,i):
-        self.params['p'] = str(i+1)
-        res = requests.get(self.url, headers=self.headers, params=self.params)
-        print(res.url)
-        self.json_text = json.loads(res.text)  #调用 json.loads()
     def getmv(self):
         for i in range(self.page):
             self.getjson(i)
@@ -261,11 +261,25 @@ class Getsome(Getall):
                 print(self.num, mv['mv_name'])
                 print('播放链接：https://y.qq.com/n/yqq/mv/v/' + mv['v_id']+'.html\n\n')
                 self.num += 1
+    def getsong(self):
+        '''get the songs list. '''
+        for i in range(self.page):
+            self.getjson(i)
+            for music in self.json_text["data"]["song"]["list"]:
+                print(self.num, music['name'])
+                print('所属专辑：' + music['album']['name'])
+                # 查找播放时长
+                print('播放时长：' + str(music['interval'])+'秒')
+                # 查找播放链接
+                print('播放链接：https://y.qq.com/n/yqq/song/' + music['mid']+'.html\n\n')
+                self.num += 1
     def menu(self):
         if self.type_ == 7:
             self.getlrc()
         elif self.type_ == 12:
             self.getmv()
+        elif self.type_ == 0:
+            self.getsong()
 
 # idol = input('请输入要查询的歌手：')
 # page = input('请输入要查询的页数：')
@@ -273,6 +287,6 @@ class Getsome(Getall):
 # getlrc(page, idol)           
 # getcomment(page)
 # a = Getall('周旭',1,0)
-a = Getsome('周杰伦',1,7)
+a = Getsome('周杰伦',1,0)
 # a.test()
 a.menu()
