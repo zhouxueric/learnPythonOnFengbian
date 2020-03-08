@@ -75,3 +75,4 @@ d = a.strip()
 print('strip:去掉头尾相应字符，无参数则去空格等字符',d)
 e = a.replace(' ','').replace('\n','')
 print('replace:将第一个参数替换为第二个参数',e)
+# 
