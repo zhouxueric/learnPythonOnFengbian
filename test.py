@@ -63,6 +63,7 @@
 #                                 Travel
 
   
+<<<<<<< HEAD
 # '''
 # b = a.split()
 # print('split:按参数切片，返回列表，无参数则按空格等字符',b)
@@ -88,3 +89,18 @@ t = int(input('请输入要查询的类型（专辑: 8；MV :12；歌词:7；歌
 a = qq.Getsongs(singer,page,t,30)
 # a = qq.Getsongs()
 a.menu()
+=======
+'''
+b = a.split()
+print('split:按参数切片，返回列表，无参数则按空格等字符',b)
+c = re.split('[ ,\n]',a) #\n\n\n无效
+# c = re.split('[\n,                                ]',a)
+c = re.split(r'\n|                                ',a)
+# c = re.split(r'\s+(?=[A-Z]+)',a)
+print(r're.split:可用正则表达式。多字符可为"[a,b,c,\n]"或r"a|b|cd|\n",后者不限长度',c)
+d = a.strip()
+print('strip:去掉头尾相应字符，无参数则去空格等字符',d)
+e = a.replace(' ','').replace('\n','')
+print('replace:将第一个参数替换为第二个参数',e)
+# test
+>>>>>>> d33934e44a336b56bf625064feb2614dbdd29ff0

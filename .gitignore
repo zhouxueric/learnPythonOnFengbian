@@ -134,20 +134,18 @@ dmypy.json
 /__pycache__
 /.git
 .DS_Store
-知识截图/*
+知识锟斤拷图/*
 *.txt
 *.csv
 *.xlsx
 *.xls
 *.gif
 *.rar
-<<<<<<< HEAD
 *.png
 *.html
 *.ico
 *.jpg
 *.JPG
 *.jpeg
-=======
 *.mp3
->>>>>>> refs/remotes/origin/master
+.~*
