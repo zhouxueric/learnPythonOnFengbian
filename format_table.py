@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 Spyder Editor
 
@@ -10,11 +10,15 @@ with open('d:\\desktop\\sample.txt') as sample:
 
 i = 0    
 separate = '\t'  #分隔符用tab还是其它符号
-#num = int(input('列数:'))   #列数
-num = 8
+num = input('列数:（默认8列)')   #列数
+print(type(num))
+
+if num == '':
+    num = 8
+num = int(num)
 result = []
 for line in lines:
-    line = line.strip('\n')
+    line = line.strip('\n').strip('?')
     i += 1
     result.append(line + separate)
     if i % num ==0:
@@ -23,4 +27,3 @@ print('转换成功，共%s个' % i)
 
 with open('d:\\desktop\\format_sample.txt','w') as f:
     f.writelines(result)
-    f.wri
