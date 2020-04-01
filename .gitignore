@@ -137,6 +137,8 @@ dmypy.json
 ֪ʶ��ͼ/*
 *.txt
 *.csv
+*.xlsx
+*.xls
 *.gif
 *.rar
 *.png

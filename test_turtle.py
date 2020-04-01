@@ -28,23 +28,24 @@ turtle.setup(width=900,height=600, startx=100, starty=100)
 #     b.fd(2*pi*r/n)
 #     b.lt(360/n)
 # turtle.mainloop()
-turtle.screensize(bg="red")
-c = turtle.Turtle()
-# c.fillcolor("yellow")
-# c.pencolor("red")
-c.color("yellow", "yellow") #同时设置pencolor=color1, fillcolor=color2
-c.pensize(2)
-c.penup()
-c.setx(-200)
-c.sety(150)
-c.pendown()
-c.begin_fill()
-n = 5
-for i in range(n):
-    c.forward(200)
-    c.left(-144)
-c.end_fill()
-turtle.mainloop()
+
+# turtle.screensize(bg="red")
+# c = turtle.Turtle()
+# # c.fillcolor("yellow")
+# # c.pencolor("red")
+# c.color("yellow", "yellow") #同时设置pencolor=color1, fillcolor=color2
+# c.pensize(2)
+# c.penup()
+# c.setx(-200)
+# c.sety(150)
+# c.pendown()
+# c.begin_fill()
+# n = 5
+# for i in range(n):
+#     c.forward(200)
+#     c.left(-144)
+# c.end_fill()
+# turtle.mainloop()
 
 
 from datetime import *
@@ -165,5 +166,5 @@ def main():
     Tick()
     turtle.mainloop()
  
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()

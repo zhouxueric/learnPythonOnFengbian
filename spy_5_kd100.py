@@ -1,5 +1,4 @@
 import requests
-from bs4 import BeautifulSoup
 import json
 
 url = 'https://www.kuaidi100.com/query/'
@@ -13,5 +12,5 @@ print(res.url)
 print(res.status_code)
 # print(res.text)
 json_res = res.json()
-info = json_res['data']#[0]['context']
+info = json_res['data'][0]['context']
 print(info)
