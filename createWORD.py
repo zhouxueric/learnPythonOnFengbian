@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 Created on Tue Dec 10 15:55:53 2019
 
@@ -11,10 +11,14 @@ import re,docx
 note = '''实验人： / 
 一、实验名称：
 From p - p
-二、实验目的：
+二、实验目的：对样本进行测序。
 
 三、材料和设备
 1.试剂和设备：
+材料	物料批号	来源	用量
+2×Phanta Max Master Mix	7E291C8	Vazyme	
+上游测序引物	HZP20190228-1458	擎科
+下游测序引物	HZP20190228-1458	擎科
 
 2.样本
 
@@ -54,7 +58,7 @@ for filename in filenames:
     #     f.write('日期：' + filename[5:] +'\n')
     #     f.write(note)
     file = docx.Document()
-    file.add_paragraph('日期：' + filename[7:] +'\n',style='List Bullet') 
+    file.add_paragraph('日期：' + filename[0:10] +'\n',style='List Bullet') 
     file.add_paragraph(note,style='List Bullet') #写入无序号段落
     # file.add_paragraph('结论',style='List Number') #写入有序号段落
     # file.add_picture('picture.JPG',width=docx.shared.Inches(5)) #插入图片的方法
