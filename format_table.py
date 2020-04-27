@@ -20,7 +20,7 @@ result = []
 for line in lines:
     line = line.strip('\n').strip('?')
     i += 1
-    result.append(line + separate)
+    result.append(line + separate*2)
     if i % num ==0:
        result.append('\n')
 print('转换成功，共%s个' % i)
