@@ -8,10 +8,10 @@ from selenium import webdriver
 import time
 from selenium.webdriver.chrome.options import Options #设置静默模式
 
-chrome_options = Options()#设置静默模式
-chrome_options.add_argument('--headless') #设置静默模式
-driver = webdriver.Chrome(options=chrome_options)#设置静默模式
-#driver = webdriver.Chrome()
+#chrome_options = Options()#设置静默模式
+#chrome_options.add_argument('--headless') #设置静默模式
+#driver = webdriver.Chrome(options=chrome_options)#设置静默模式
+driver = webdriver.Chrome()
 url1 = 'https://localprod.pandateacher.com/python-manuscript/crawler-html/chromedriver/ChromeDriver.html'
 driver.get(url1)
 time.sleep(1)
